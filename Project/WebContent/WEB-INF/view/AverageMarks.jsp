@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<!-- saved from url=(0051)file:///C:/Users/computer/Downloads/percentage.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<script type="text/javascript" src="./percentage_files/jquery.min.js.download"></script>
-</head>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 <div class="fsize">AVERAGE MARKS</div><br>
-<input type="checkbox" \=""><label>Single Candidate Entry</label>
-<input type="checkbox" \=""><label>Bulk upload</label>
-<input type="search" placeholder="Search">
-<input type="submit" value="Search">
-<button>Upload</button><br><br>
+<form:form method="post" class="example" action="saveAverageMarks" modelAttribute="averageMarks">
+<input type="checkbox"/><label>Single Candidate Entry</label>
+<input type="checkbox"/><label>Bulk Upload</label>
+<input type="text" placeholder="Search.." name="search">
+<button type="submit"><i class="fa fa-search"></i></button>
+<button id="upload" name="upload">Upload</button></label><br><br>
 Regno:<form:input path="regno" id="regno"/><br><br>
-marks:<form:select path="semester" id="semester">
-<form:option value="0" label="----Select Semester----"/>
-<form:options items="${semesterList}" itemValue="id" itemLabel="value"/> 
-</form:select><input type="text" id="marks" path="marks">
+Semester:<form:input path="semester" id="semester"/>mark:<form:input path="mark" id="mark"/><br><br>
+Average:<form:input path="avgmarks" id="avgmarks"/><br><br>
+History of arrears:<form:input path="hisofarrears" id="hisofarrears"/><br><br>
+current arrears:<form:input path="currentarrears" id="currentarrears"/><br><br>
 <button type="button">Save</button>
 <button type="button">Reset</button>
 <button type="button">Cancel</button><br><br>
@@ -35,6 +36,7 @@ marks:<form:select path="semester" id="semester">
     <th scope="col">Current Arrears</th>
     </tr>
 </tbody></table>
+</form:form>
 <style type="text/css">
 .fsize
 {
@@ -51,12 +53,11 @@ table
     width:100%;
 }
 form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
+  width: 10%;
+  padding: 8px;
   background: #2196F3;
   color: white;
-  font-size: 17px;
+  font-size: 12px;
   border: 1px solid grey;
   border-left: none;
   cursor: pointer;

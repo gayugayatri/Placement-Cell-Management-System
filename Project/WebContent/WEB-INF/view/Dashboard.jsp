@@ -28,9 +28,13 @@
 
   <div id="side-menu" class="side-nav">
     <a href="#" class="btn-close" onclick="closeSlideMenu()">&times;</a>
-    <a href="/ExamCell/nominalRole">Home</a>
-    <a href="#">About</a>
-    <a href="#">Settings</a>
+    <a href="/ExamCell/nominalRole">Nominal Role</a>
+    <a href="ExamCell/CompanyDetails">IET NON IET</a>
+    <a href="ExamCell/CompanyDetails">Recruiting Company</a>
+    <a href="ExamCell/EligibleCandidates">Eligible Candidates</a>
+    <a href="ExamCell/ComWisePlcdStu">Company wise Placed Students</a>
+    <a href="ExamCell/IndividualStuOffs">Individual Offers</a>
+    <a href="ExamCell/IndividualCompOffs">Individual Company Offers</a>
   </div>
 
   <div id="main">

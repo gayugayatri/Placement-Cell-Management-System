@@ -28,6 +28,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.iet.ExamCell.Model.AverageMarks;
 import com.iet.ExamCell.Model.ComboDO;
 import com.iet.ExamCell.Model.Login;
 import com.iet.ExamCell.Model.NominalRole;
@@ -92,6 +93,25 @@ public class HomeDAOImpl implements HomeDAO {
 	    jdbcTemplate.update(sql, new Object[] { student.getRegno(),
 	    	student.getName(), student.getYoj(), student.getDegree(), student.getDept(), student.getSection(), student.getYear(), student.getEmail()});
 	  }
+	  public void register1(AverageMarks marks){
+
+		  String sql= "insert into tbl_mst_avg_marks (num_nominal_role_id, num_avg_marks, num_his_of_arrears, num_cur_arrears)"+ "values(?,?,?,?)";	
+		    
+		  jdbcTemplate.update1(sql, new Object[] {marks.getMark(), marks.getAvgmarks(), marks.getHisofarrears(), marks.getCurrentarrears()});
+			      
+		  sql = "SELECT max(num_avg_marks_id) from tbl_mst_avg_marks";
+		  int avg_mark_id = jdbcTemplate.queryForObject(sql, Integer.class);
+			
+		  sql = "insert into tbl_mst_sem_marks (num_avg_marks_id, num_nominal_role_id, num_sem_id, num_sem_marks) "
+		    		+ "values(?,?,?,?)";
+           	    
+		  jdbcTemplate.update1(sql, new Object[] { marks.getAvgmarksId(), marks.getNominalRoleId(),
+		    	marks.getSemester(), marks.getMark()});
+		  
+		    
+		
+	  }
+
 
 	  public NominalRole showStudents(NominalRole student) {
 
@@ -101,22 +121,49 @@ public class HomeDAOImpl implements HomeDAO {
 
 	    return students.size() > 0 ? students.get(0) : null;
 	  }
-	  
+	  public AverageMarks showMarks(AverageMarks mark) { 
+
+		    String sql = "select num_avg_marks_id,num_nominal_role, num_avg_marks, num_his_of_arrears, num_cur_arrears from tbl_mst_avg_marks";
+		    
+		    sql = "select  num_avg_marks_id, num_sem_id, num_sem_marks from tbl_mst_sem,_marks";
+		            
+
+		    List<AverageMarks> marks = jdbcTemplate.query(sql, new AverageMarksMapper());
+
+		    return marks.size() > 0 ? marks.get(0) : null;
+		  }
+
 	  public int update(NominalRole p){  
 		    String sql="update tbl_mst_nominal_role set vch_reg_number='"+p.getRegno()+"', vch_name='"+p.getName()+"', dtt_year_of_joining='"+p.getYoj()+"', num_year_id="+p.getYear()+", num_degree_id="+p.getDegree()+", num_dept_id="+p.getDept()+", num_section_id="+p.getSection()+",vch_email_id='"+p.getEmail()+"'";
 		    
 		     return jdbcTemplate.update(sql);  
 		}  
+	  public int update1(AverageMarks p){  
+		    String sql="update tbl_mst_sem_marks set vch_reg_no='"+p.getRegno()+"', num_sem_id="+p.getSemester()+", num_sem_marks="+p.getMark();
+		    
+		           sql="update tbl_mst_avg_marks set  num_avg_marks="+p.getAvgmarks()+", num_his_of_arrears="+p.getHisofarrears()+", num_current_arrears="+p.getCurrentarrears();
+	
+		    return jdbcTemplate.update1(sql);  
+		    return jdbcTemplate.update1(sql);
+		}  
 		public int delete(int id){  
 		    String sql="delete from tbl_mst_nominal_role where num_nominal_role_id="+id+"";  
 		    return jdbcTemplate.update(sql);  
 		}  
+		public int delete1(int id){  
+		    String sql="delete from tbl_mst_sem_marks where num_sem_marks_id="+id+"";  
+		    return jdbcTemplate.update1(sql);  
+		}
 		public NominalRole getNominalRoleById(int regno){  
 		    String sql="select num_nominal_role_id, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id from tbl_mst_nominal_role where num_nominal_role_id=?";  
 		    return jdbcTemplate.queryForObject(sql, new Object[]{regno},new BeanPropertyRowMapper<NominalRole>(NominalRole.class));  
 		}  
+		public AverageMarks getAverageMarksById(int regno){  
+		    String sql="select num_sem_marks, num_sem_id, num_sem_marks from tbl_mst_sem_marks where num_sem_marks_id=?"+"select vch_reg_no, num_avg_marks, num_his_of_arrears, num_cur_arrears where num_sem_marks_id=?";  
+		    return jdbcTemplate.queryForObject(sql, new Object[]{regno},new BeanPropertyRowMapper<AverageMarks>(AverageMarks.class));  
+		} 
 		public List<NominalRole> getAllNominalRoles(){  
-		    return jdbcTemplate.query("select num_nominal_role_id, vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id  from tbl_mst_nominal_role",new RowMapper<NominalRole>(){  
+		    return jdbcTemplate.query("select num_nominal_role_id, vch_reg_no, num_sem_id, num_marks from tbl_mst_sem_marks"+"select num_vg_marks, num_his_of_arrears, num_cur_arrears from tbl_mst_avg_marks",new RowMapper<NominalRole>(){  
 		        public NominalRole mapRow(ResultSet rs, int row) throws SQLException {  
 		        	NominalRole e=new NominalRole();  
 		            e.setNominalRoleId(rs.getInt(1));
@@ -134,6 +181,23 @@ public class HomeDAOImpl implements HomeDAO {
 		        }  
 		    });  
 		} 
+		
+		public List<AverageMarks> getAllAverageMarks(){  
+		    return jdbcTemplate.query("select num_sem_marks_id, vch_reg_no, num_sem_id, num_sem_marks from tbl_mst_sem_marks"+"select num_avg_marks, num_his_of_arrears, num_cur_arrears from tbl_mst_avg_ma",new RowMapper<AverageMarks>(){  
+		        public AverageMarks mapRow(ResultSet rs, int row) throws SQLException {  
+		        	AverageMarks e =new AverageMarks();  
+		            e.setSemmarksId(rs.getInt(1));
+		        	e.setRegno(rs.getString(2));  
+		            e.setSemester(rs.getInt(3));  
+		            e.setMark(rs.getInt(4));  
+		            e.setAvgmarks(rs.getInt(5));  
+		            e.setHisofarrears(rs.getInt(6));
+		            e.setCurrentarrears(rs.getInt(7));
+		           return e;  
+		        }  
+		    });  
+		} 
+		
 
 		// to load Department combobox values
 		public List<ComboDO> getAllDept(){  
@@ -177,8 +241,17 @@ public class HomeDAOImpl implements HomeDAO {
 		    });  
 		}
 		
-	}
-
+//to load Semester combobox values
+		public List<ComboDO> getAllSemester(){  
+		    return jdbcTemplate.query("select num_sem_id, vch_sem_name from tbl_mst_semesters where char_active_status='Y'",new RowMapper<ComboDO>(){  
+		        public ComboDO mapRow(ResultSet rs, int row) throws SQLException {  
+		        	ComboDO e=new ComboDO();  
+		            e.setId(rs.getInt(1));
+		        	e.setValue(rs.getString(2));		            
+		            return e;  
+		        }  
+		    });  
+		}
 	class NominalRoleMapper implements RowMapper<NominalRole> {
 
 	  public NominalRole mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -196,6 +269,26 @@ public class HomeDAOImpl implements HomeDAO {
 	    return student;
 	  }
 	}
+	class AverageMarksMapper implements RowMapper<AverageMarks> {
+
+		  public AverageMarks mapRow(ResultSet rs, int arg1) throws SQLException {
+			  AverageMarks marks = new AverageMarks();
+			  marks.setSemmarksId(rs.getInt("num_sem_marks_id"));
+			  marks.setRegno(rs.getString("vch_regno"));
+			  marks.setSemester(rs.getInt("num_sem_id"));
+			  marks.setMark(rs.getInt("num_sem_marks"));
+			  marks.setAvgmarks(rs.getInt("num_avg_marks"));
+			  marks.setHisofarrears(rs.getInt("num_his_of_arrears"));
+			  marks.setCurrentarrears(rs.getInt("num_cur_arrears"));
+			  
+			  
+		    return marks;
+		  }
+		}
+	
+
+	
+}
 		  
 		  
 		  

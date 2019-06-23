@@ -11,11 +11,23 @@
 <input type="text" placeholder="Search.." name="search">
 <button type="submit"><i class="fa fa-search"></i></button>
 <button id="upload" name="upload">Upload</button></label><br><br>
-Regno:<form:input path="regno" id="regno"/><br><br>
-Semester:<form:input path="semester" id="semester"/>mark:<form:input path="mark" id="mark"/><br><br>
-Average:<form:input path="avgmarks" id="avgmarks"/><br><br>
-History of arrears:<form:input path="hisofarrears" id="hisofarrears"/><br><br>
-current arrears:<form:input path="currentarrears" id="currentarrears"/><br><br>
+Regno:<form:select path="regno" id="regno">
+<form:option value="0" label="----Select Regno----"/>
+<form:options items="${regnoList}" itemValue="id" itemLabel="value"/> 
+</form:select><br><br>
+Sem1:<form:input path="sem1Mark" id="sem1"/>%
+Sem2:<form:input path="sem2Mark" id="sem2"/>%
+Sem3:<form:input path="sem3Mark" id="sem3"/>%
+Sem4:<form:input path="sem4Mark" id="sem4"/>%
+Sem5:<form:input path="sem5Mark" id="sem5"/>%
+Sem6:<form:input path="sem6Mark" id="sem6"/>%
+Sem7:<form:input path="sem7Mark" id="sem7"/>%
+Sem8:<form:input path="sem8Mark" id="sem8"/>%
+Sem9:<form:input path="sem9Mark" id="sem9"/>%
+Sem10:<form:input path="sem10Mark" id="sem10"/>%
+Average:<form:input path="avgmark" id="avgmarks"/><br><br>
+History of arrears:<form:input path="hisofarrear" id="hisofarrears"/><br><br>
+current arrears:<form:input path="currentarrear" id="currentarrears"/><br><br>
 <button type="button">Save</button>
 <button type="button">Reset</button>
 <button type="button">Cancel</button><br><br>

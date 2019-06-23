@@ -21,5 +21,6 @@
     </table>
     <br/>
     <a href="nominalRole">Add New Nominal Role</a>
-    <a href="averagemarks">Average Marks List</a>
+    
+    
     

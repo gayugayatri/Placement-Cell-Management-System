@@ -1,31 +1,23 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <script type="text/javascript" src="./company_files/jquery.min.js.download"></script>
 </head>
 <body>
-<form>
+    <form:form method="post" class="example" action="save" modelAttribute="companyDetails">
+
    <div class="fsize">RECRUITING COMPANIES AND CRITERIA</div><br>
-    <label for="name">Company name:</label>
-    <input type="text" required="" maxlength="15" minlength="5" size="20" \=""><br><br>
-    <label for="Date">Date:</label>
-    <input type="date" \=""><br><br>
-    <label for="percentage">Percentage Criteria:</label>
-    <input type="text" maxlength="15" minlength="2" size="15" \=""><br><br>
-    <label for="history">History of Arrears:</label>
-    <input type="checkbox" \=""><label>Yes</label>
-    <input type="checkbox" \=""><label>No</label><br><br>
-    <label for="current">Current Arrears:</label>
-    <input type="checkbox" \=""><label>Yes</label>
-    <input type="checkbox" \=""><label>No</label><br><br>
-    <label for="Gender">Gender:</label>
-    <select id="name">
-    <option for="girls">Girls</option>
-    <option for="boys">Boys</option>
-    </select><br><br>
+    Company Name:<form:input path="companyId" id="companyId"/><br><br>
+    Date of placement:<form:input path="criteriaId" id="dateofplacement"/><br><br>
+    Percentage criteria:<form:input path="dop" id="percentage"/><br><br>
+    History of arrears:<form:input path="percentage" id="hoa"/><br><br>
+    Current arrears:<form:input path="historyofarrears" id="curarrears"/><br><br>
+    ccccc:<form:input path="currentarrears" id="curarrears"/><br><br>
+
     <button type="button">SAVE</button><br><br>
-</form>
 <table border="1">
 <tbody><tr>
     <th scope="col">S.no</th>
@@ -37,6 +29,7 @@
     <th scope="col">Gender</th>
     </tr>
 </tbody></table>
+</form:form>
 <style type="text/css">
 .fsize
 {

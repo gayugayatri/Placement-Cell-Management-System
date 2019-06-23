@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.iet.ExamCell.DAO.HomeDAO;
+import com.iet.ExamCell.Model.AverageMarks;
 import com.iet.ExamCell.Model.ComboDO;
 import com.iet.ExamCell.Model.Login;
 import com.iet.ExamCell.Model.NominalRole;
-import com.iet.ExamCell.Model.AverageMarks;
 
 @Service
 public class HomeServiceImpl implements HomeService {
@@ -35,19 +35,17 @@ public class HomeServiceImpl implements HomeService {
 			e.printStackTrace();
 		}
 	  }
-	  public void register1(AverageMarks marks) {
+	  public void register1(AverageMarks mark) {
 		    try {
-				homeDao.register1(marks);
+				homeDao.register1(mark);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		  }
-
 	  public Login validateUser(Login login) {
 	    return homeDao.validateUser(login);
 	  } 
-	  
 	  public void saveNominalRole(NominalRole student) {
 		    try {
 				homeDao.register(student);
@@ -56,9 +54,10 @@ public class HomeServiceImpl implements HomeService {
 				e.printStackTrace();
 			}
 		  }
-	  public void saveAverageMarks(AverageMarks marks) {
+	  
+	  public void saveAverageMarks(AverageMarks mark) {
 		    try {
-				homeDao.register1(marks);
+				homeDao.register1(mark);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,6 +74,7 @@ public class HomeServiceImpl implements HomeService {
 	  public List<NominalRole> getAllNominalRoles(){
 		  return homeDao.getAllNominalRoles();
 	  }
+	  
 	  public List<AverageMarks> getAllAverageMarks(){
 		  return homeDao.getAllAverageMarks();
 	  }
@@ -103,8 +103,9 @@ public class HomeServiceImpl implements HomeService {
 	      public List<ComboDO> getAllSection(){
 				  return homeDao.getAllSection();	
 				  }
+	      public List<ComboDO> getAllRegno(){
+			  return homeDao.getAllRegno();
+		  
+		  }
 
-        public List<ComboDO> getAllSemester(){
-	              return homeDao.getAllSemester();
-        }
 }

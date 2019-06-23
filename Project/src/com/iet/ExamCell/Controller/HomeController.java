@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.iet.ExamCell.Model.AverageMarks;
 import com.iet.ExamCell.Model.ComboDO;
+import com.iet.ExamCell.Model.CompanyDetails;
 import com.iet.ExamCell.Model.IetNonIet;
 import com.iet.ExamCell.Model.Login;
 import com.iet.ExamCell.Model.NominalRole;
@@ -113,12 +114,12 @@ public class HomeController {
     	return "NominalRole"; 
     } 
     
-    @RequestMapping("/averagemarks")  
+    @RequestMapping("/averageMarks")  
     public String showform1(Map<String, Object> model){  
-    	model.put("averagemarks", new AverageMarks());
+    	model.put("averageMarks", new AverageMarks());
     	
-    	/*List<ComboDO> semList = homeService.getAllsem();
-        model.put("semList", semList);*/
+    	List<ComboDO> regnoList = homeService.getAllRegno();
+        model.put("regnoList", regnoList);
     	
     	return "AverageMarks";
     	
@@ -136,7 +137,18 @@ public class HomeController {
     	
     }
    
-    
+    @RequestMapping("/companyDetails")  
+    public String showforms3(Map<String, Object> model){  
+    	model.put("companyDetails", new CompanyDetails());
+    	
+    	/*List<ComboDO> semList = homeService.getAllsem();
+        model.put("semList", semList);*/
+    	
+    	return "CompanyDetails";
+    	
+    	
+    }
+   
 
     /*It saves object into database. The @ModelAttribute puts request data 
      *  into model object. You need to mention RequestMethod.POST method  
@@ -154,9 +166,10 @@ public class HomeController {
         return "redirect:/viewNominalRole";//will redirect to viewNominalRole request mapping  
     }  
     
+    
     @RequestMapping(value="/saveAverageMarks",method = RequestMethod.POST)  
     public String saveAverageMarks(@ModelAttribute AverageMarks averageMarks){  
-    	if(averageMarks.getSemmarksId()>0)
+    	if(averageMarks.getNominalRoleId()>0)
     	{
     		homeService.update1(averageMarks);
     	}
@@ -165,7 +178,8 @@ public class HomeController {
     		homeService.saveAverageMarks(averageMarks);  
     	}
         return "redirect:/viewAverageMarks";//will redirect to viewNominalRole request mapping  
-    } 
+    }  
+    
     
     /* It displays object data into form for the given id.  
      * The @PathVariable puts URL data into variable.*/  
@@ -176,13 +190,15 @@ public class HomeController {
         return "NominalRole";  
           
         }
-    @RequestMapping(value="/Edit/{id}")  
-    public String Edit(@PathVariable int id, Model m){  
+    
+    @RequestMapping(value="/editmarks/{id}")  
+    public String editmarks(@PathVariable int id, Model m){  
     	AverageMarks averageMarks=homeService.getAverageMarksById(id);  
         m.addAttribute("command",averageMarks);
         return "AverageMarks";  
           
         }
+
     
     
     
@@ -192,8 +208,9 @@ public class HomeController {
     	homeService.saveNominalRole(nominalRole);  
         return "redirect:/viewNominalRole";  
     }  
-    @RequestMapping(value="/Editsave",method = RequestMethod.POST)  
-    public String Editsave(@ModelAttribute("averageMarks") AverageMarks averageMarks){  
+    
+    @RequestMapping(value="/editsavemarks",method = RequestMethod.POST)  
+    public String editsavemarks(@ModelAttribute("averageMarks") AverageMarks averageMarks){  
     	homeService.saveAverageMarks(averageMarks);  
         return "redirect:/viewAverageMarks";  
     }  
@@ -205,10 +222,14 @@ public class HomeController {
         m.addAttribute("list",list);
         return "ViewNominalRole";  
     } 
+    
+    
     @RequestMapping("/viewAverageMarks")  
     public String viewAverageMarks(Model m){  
         List<AverageMarks> list=homeService.getAllAverageMarks();  
         m.addAttribute("list",list);
         return "ViewAverageMarks";  
     } 
+    
 }
+

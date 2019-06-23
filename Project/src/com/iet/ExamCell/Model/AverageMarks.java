@@ -3,84 +3,212 @@ package com.iet.ExamCell.Model;
 public class AverageMarks {
 
 	private int semmarksId;
-	private String regno;
-	private int semester;
-	private int mark;
-	private int avgmarks;
-	private int hisofarrears;
-	private int currentarrears;
+	private int regno;
+	private int nominalRoleId;
+	
+	private int sem1Mark;
+	private int sem2Mark;
+	private int sem3Mark;
+	private int sem4Mark;
+	private int sem5Mark;
+	private int sem6Mark;
+	private int sem7Mark;
+	private int sem8Mark;
+	private int sem9Mark;
+	private int sem10Mark;
+	private int avgmark;
+	private int hisofarrear;
+	private int currentarrear;
 	
 	
 	public AverageMarks() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public AverageMarks(int semmarksId, String regno, int semester,
-			int mark, int avgmarks, int hisofarrears, int currentarrears ) {
-		
+
+
+	public AverageMarks(int semmarksId, int regno, int nominalRoleId,
+			int sem1Mark, int sem2Mark, int sem3Mark, int sem4Mark,
+			int sem5Mark, int sem6Mark, int sem7Mark, int sem8Mark,
+			int sem9Mark, int sem10Mark, int avgmark, int hisofarrear,
+			int currentarrear) {
+		super();
 		this.semmarksId = semmarksId;
-		this.regno =regno;
-		this.semester = semester;
-		this.mark = mark;
-		this.avgmarks = avgmarks;
-		this.hisofarrears = hisofarrears;
-		this.currentarrears = currentarrears;
+		this.regno = regno;
+		this.nominalRoleId = nominalRoleId;
+		this.sem1Mark = sem1Mark;
+		this.sem2Mark = sem2Mark;
+		this.sem3Mark = sem3Mark;
+		this.sem4Mark = sem4Mark;
+		this.sem5Mark = sem5Mark;
+		this.sem6Mark = sem6Mark;
+		this.sem7Mark = sem7Mark;
+		this.sem8Mark = sem8Mark;
+		this.sem9Mark = sem9Mark;
+		this.sem10Mark = sem10Mark;
+		this.avgmark = avgmark;
+		this.hisofarrear = hisofarrear;
+		this.currentarrear = currentarrear;
 	}
+
+
+	public int getNominalRoleId() {
+		return nominalRoleId;
+	}
+
+
+	public void setNominalRoleId(int nominalRoleId) {
+		this.nominalRoleId = nominalRoleId;
+	}
+
 
 	public int getSemmarksId() {
 		return semmarksId;
 	}
 
+
 	public void setSemmarksId(int semmarksId) {
 		this.semmarksId = semmarksId;
 	}
 
-	public String getRegno() {
+
+	public int getRegno() {
 		return regno;
 	}
 
-	public void setRegno(String regno) {
+
+	public void setRegno(int regno) {
 		this.regno = regno;
 	}
 
-	public int getSemester() {
-		return semester;
+
+	public int getSem1Mark() {
+		return sem1Mark;
 	}
 
-	public void setSemester(int semester) {
-		this.semester = semester;
+
+	public void setSem1Mark(int sem1Mark) {
+		this.sem1Mark = sem1Mark;
 	}
 
-	public int getMark() {
-		return mark;
+
+	public int getSem2Mark() {
+		return sem2Mark;
 	}
 
-	public void setMark(int mark) {
-		this.mark = mark;
+
+	public void setSem2Mark(int sem2Mark) {
+		this.sem2Mark = sem2Mark;
 	}
 
-	public int getAvgmarks() {
-		return avgmarks;
+
+	public int getSem3Mark() {
+		return sem3Mark;
 	}
 
-	public void setAvgmarks(int avgmarks) {
-		this.avgmarks = avgmarks;
+
+	public void setSem3Mark(int sem3Mark) {
+		this.sem3Mark = sem3Mark;
 	}
 
-	public int getHisofarrears() {
-		return hisofarrears;
+
+	public int getSem4Mark() {
+		return sem4Mark;
 	}
 
-	public void setHisofarrears(int hisofarrears) {
-		this.hisofarrears = hisofarrears;
+
+	public void setSem4Mark(int sem4Mark) {
+		this.sem4Mark = sem4Mark;
 	}
 
-	public int getCurrentarrears() {
-		return currentarrears;
+
+	public int getSem5Mark() {
+		return sem5Mark;
 	}
 
-	public void setCurrentarrears(int currentarrears) {
-		this.currentarrears = currentarrears;
+
+	public void setSem5Mark(int sem5Mark) {
+		this.sem5Mark = sem5Mark;
 	}
 
+
+	public int getSem6Mark() {
+		return sem6Mark;
+	}
+
+
+	public void setSem6Mark(int sem6Mark) {
+		this.sem6Mark = sem6Mark;
+	}
+
+
+	public int getSem7Mark() {
+		return sem7Mark;
+	}
+
+
+	public void setSem7Mark(int sem7Mark) {
+		this.sem7Mark = sem7Mark;
+	}
+
+
+	public int getSem8Mark() {
+		return sem8Mark;
+	}
+
+
+	public void setSem8Mark(int sem8Mark) {
+		this.sem8Mark = sem8Mark;
+	}
+
+
+	public int getSem9Mark() {
+		return sem9Mark;
+	}
+
+
+	public void setSem9Mark(int sem9Mark) {
+		this.sem9Mark = sem9Mark;
+	}
+
+
+	public int getSem10Mark() {
+		return sem10Mark;
+	}
+
+
+	public void setSem10Mark(int sem10Mark) {
+		this.sem10Mark = sem10Mark;
+	}
+
+
+	public int getAvgmark() {
+		return avgmark;
+	}
+
+
+	public void setAvgmark(int avgmark) {
+		this.avgmark = avgmark;
+	}
+
+
+	public int getHisofarrear() {
+		return hisofarrear;
+	}
+
+
+	public void setHisofarrear(int hisofarrear) {
+		this.hisofarrear = hisofarrear;
+	}
+
+
+	public int getCurrentarrear() {
+		return currentarrear;
+	}
+
+
+	public void setCurrentarrear(int currentarrear) {
+		this.currentarrear = currentarrear;
+	}
+
+	
 }

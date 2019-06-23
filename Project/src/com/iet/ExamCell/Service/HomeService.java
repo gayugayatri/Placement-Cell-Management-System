@@ -23,12 +23,11 @@ import com.iet.ExamCell.Model.NominalRole;
 public interface HomeService {
 
 	  void register(NominalRole student);
-	  void register1(AverageMarks marks);
-
+	  void register1(AverageMarks mark);
 	  Login validateUser(Login login);
 	  
 	  void saveNominalRole(NominalRole student);
-	  void saveAverageMarks(AverageMarks marks);
+	  void saveAverageMarks(AverageMarks mark);
 	  NominalRole getNominalRoleById(int regno);
 	  AverageMarks getAverageMarksById(int regno);
 	  List<NominalRole> getAllNominalRoles();
@@ -39,5 +38,6 @@ public interface HomeService {
 	  List<ComboDO> getAllDept();
 	  List<ComboDO> getAllYear();
 	  List<ComboDO> getAllSection();
-	  List<ComboDO> getAllSemester();
+	  List<ComboDO> getAllRegno();
+	  //List<ComboDO> getAllSemester();
 	  }

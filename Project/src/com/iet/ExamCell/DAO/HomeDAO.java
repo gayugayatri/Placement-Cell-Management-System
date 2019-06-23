@@ -28,9 +28,8 @@ public interface HomeDAO {
 	int update(NominalRole p);
 	int update1(AverageMarks p);
 	int delete(int id);
-	int delete1(int id);
-    NominalRole getNominalRoleById(int regno);
-    AverageMarks getAverageMarksById(int regno);
+	NominalRole getNominalRoleById(int regno);
+	AverageMarks getAverageMarksById(int regno);
 	List<NominalRole> getAllNominalRoles();
 	List<AverageMarks> getAllAverageMarks();
 	// to load Department combobox values
@@ -38,7 +37,7 @@ public interface HomeDAO {
 	List<ComboDO> getAllDept();
 	List<ComboDO> getAllYear();
 	List<ComboDO> getAllSection();
-	List<ComboDO> getAllSemester();
+	List<ComboDO> getAllRegno();
 	
 	
 }

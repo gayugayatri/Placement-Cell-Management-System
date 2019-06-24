@@ -125,8 +125,20 @@ public class HomeController {
     	
     	
     }
-    @RequestMapping("/ietnoniet")  
+    
+    @RequestMapping("/companyDetails")  
     public String showforms2(Map<String, Object> model){  
+    	model.put("companyDetails", new CompanyDetails());
+    	
+    	/*List<ComboDO> semList = homeService.getAllsem();
+        model.put("semList", semList);*/
+    	
+    	return "CompanyDetails";
+    	
+    	
+    }
+    @RequestMapping("/ietnoniet")  
+    public String showforms3(Map<String, Object> model){  
     	model.put("ietnoniet", new IetNonIet());
     	
     	/*List<ComboDO> semList = homeService.getAllsem();
@@ -137,22 +149,10 @@ public class HomeController {
     	
     }
    
-    @RequestMapping("/companyDetails")  
-    public String showforms3(Map<String, Object> model){  
-    	model.put("companyDetails", new CompanyDetails());
-    	
-    	/*List<ComboDO> semList = homeService.getAllsem();
-        model.put("semList", semList);*/
-    	
-    	return "CompanyDetails";
-    	
-    	
-    }
-   
-
     /*It saves object into database. The @ModelAttribute puts request data 
      *  into model object. You need to mention RequestMethod.POST method  
      *  because default request is GET*/  
+    
     @RequestMapping(value="/saveNominalRole",method = RequestMethod.POST)  
     public String saveNominalRole(@ModelAttribute NominalRole nominalRole){  
     	if(nominalRole.getNominalRoleId()>0)
@@ -160,7 +160,7 @@ public class HomeController {
     		homeService.update(nominalRole);
     	}
     	else
-    	{
+    	{  
     		homeService.saveNominalRole(nominalRole);  
     	}
         return "redirect:/viewNominalRole";//will redirect to viewNominalRole request mapping  
@@ -177,7 +177,20 @@ public class HomeController {
     	{
     		homeService.saveAverageMarks(averageMarks);  
     	}
-        return "redirect:/viewAverageMarks";//will redirect to viewNominalRole request mapping  
+        return "redirect:/viewAverageMarks";//will redirect to viewAverageMarks request mapping  
+    }  
+    
+    @RequestMapping(value="/saveCompanyDetails",method = RequestMethod.POST)  
+    public String saveCompanyDetails(@ModelAttribute CompanyDetails companyDetails){  
+    	if(companyDetails.getCompanyId()>0)
+    	{
+    		homeService.updateCompanyDetails(companyDetails);
+    	}
+    	else
+    	{
+    		homeService.saveCompanyDetails(companyDetails);  
+    	}
+        return "redirect:/viewCompanyDetails";//will redirect to viewNominalRole request mapping  
     }  
     
     
@@ -198,6 +211,13 @@ public class HomeController {
         return "AverageMarks";  
           
         }
+    @RequestMapping(value="/editCompanyDetails/{id}")  
+    public String editCompanyDetails(@PathVariable int id, Model m){  
+    	CompanyDetails companyDetails=homeService.getCompanyDetailsById(id);  
+        m.addAttribute("command",companyDetails);
+        return "CompanyDetails";  
+          
+        }
 
     
     
@@ -213,6 +233,11 @@ public class HomeController {
     public String editsavemarks(@ModelAttribute("averageMarks") AverageMarks averageMarks){  
     	homeService.saveAverageMarks(averageMarks);  
         return "redirect:/viewAverageMarks";  
+    } 
+    @RequestMapping(value="/editsaveCompanyDetails",method = RequestMethod.POST)  
+    public String editsaveCompanyDetails(@ModelAttribute("companyDetails") CompanyDetails companyDetails){  
+    	homeService.saveCompanyDetails(companyDetails);  
+        return "redirect:/viewCompanyDetails";  
     }  
     
     /* It provides list of students through the model object - NominallRole */  
@@ -230,6 +255,15 @@ public class HomeController {
         m.addAttribute("list",list);
         return "ViewAverageMarks";  
     } 
+    
+    @RequestMapping("/viewCompanyDetails")  
+    //RequestMapping(value={"/viewCompanyDetails"})
+    public String viewCompanyDetails(Model m){  
+        List<CompanyDetails> list=homeService.getAllCompanyDetails();  
+        m.addAttribute("list",list);
+        return "ViewCompanyDetails";  
+    } 
+    
     
 }
 

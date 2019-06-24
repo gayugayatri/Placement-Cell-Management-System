@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.iet.ExamCell.Model.AverageMarks;
 import com.iet.ExamCell.Model.ComboDO;
+import com.iet.ExamCell.Model.CompanyDetails;
 import com.iet.ExamCell.Model.Login;
 import com.iet.ExamCell.Model.NominalRole;
 
@@ -96,26 +97,36 @@ public class HomeDAOImpl implements HomeDAO {
 
 	  public void register1(AverageMarks marks){
 
-		  String sql= "insert into tbl_mst_avg_marks (num_nominal_role_id, num_avg_marks, num_his_of_arrears, num_cur_arrears)"+ "values(?,?,?,?)";	
+		  String sql= "insert into tbl_mst_avg_marks ( vch_reg_no, num_avg_marks, vch_his_of_arrears, vch_cur_arrears)"+ "values(?,?,?,?)";	
 		    
-		  jdbcTemplate.update(sql, new Object[] {marks.getNominalRoleId(), marks.getAvgmark(), marks.getHisofarrear(), marks.getCurrentarrear()});
+		  jdbcTemplate.update(sql, new Object[] {marks.getRegno(),marks.getAvgmark(),  marks.getHisofarrear(), marks.getCurrentarrear()});
 			      
 		  sql = "SELECT max(num_avg_marks_id) from tbl_mst_avg_marks";
-		  int avg_mark_id = jdbcTemplate.queryForObject(sql, Integer.class);
+		  int num_avg_marks_id = jdbcTemplate.queryForObject(sql, Integer.class);
 			
-		  sql = "insert into tbl_mst_sem_marks (num_avg_marks_id, num_nominal_role_id, num_sem1_mark, num_sem2_mark, num_sem3_mark, num_sem4_mark, num_sem5_mark, num_sem6_mark, num_sem7_mark, num_sem8_mark, num_sem9_mark num_sem10_mark) "
+		  sql = "insert into tbl_mst_sem_marks (num_avg_marks_id, num_sem_marks_id, num_sem1_mark, num_sem2_mark, num_sem3_mark, num_sem4_mark, num_sem5_mark, num_sem6_mark, num_sem7_mark, num_sem8_mark, num_sem9_mark, num_sem10_mark) "
 		    		+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
            	    
-		  jdbcTemplate.update(sql, new Object[] { avg_mark_id, marks.getNominalRoleId(),
+		  jdbcTemplate.update(sql, new Object[] { num_avg_marks_id, marks.getSemmarksId(),
 		    	marks.getSem1Mark(),marks.getSem2Mark(),marks.getSem3Mark(),marks.getSem4Mark(),marks.getSem5Mark(),marks.getSem6Mark(),marks.getSem7Mark(),marks.getSem8Mark(),marks.getSem9Mark(),marks.getSem10Mark()});
 		  
 		    
 		
 	  }
+	  public void registerCompanyDetails(CompanyDetails company){
+
+		    String sql = "insert into tbl_mst_companydetails (vch_company_name, dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear) "
+		    		+ "values(?,?,?,?)";
+		    
+		    jdbcTemplate.update(sql, new Object[] { company.getCompanyName(),
+		    		company.getDop(), company.getPercentage(), company.getHisofarrear(), company.getCurrentarrear()});
+			  }
+	  
 
 	  public NominalRole showStudents(NominalRole student) {
 
-	    String sql = "select num_nominal_role_id, vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id,num_section_id, vch_email_id from tbl_mst_nominal_role";// where num_Student_Id=" + student.getStudentId() ;//" and vch_student_fname='" + student.getFirstname() + "'";
+	    String sql = "select num_no"
+	    		+ "minal_role_id, vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id,num_section_id, vch_email_id from tbl_mst_nominal_role";// where num_Student_Id=" + student.getStudentId() ;//" and vch_student_fname='" + student.getFirstname() + "'";
 
 	    List<NominalRole> students = jdbcTemplate.query(sql, new NominalRoleMapper());
 
@@ -139,6 +150,15 @@ public class HomeDAOImpl implements HomeDAO {
 		    return marks.size() > 0 ? marks.get(0) : null;
 		  }
 
+	  public CompanyDetails showCompanies(CompanyDetails company) {
+
+		    String sql = "select num_company_id, vch_company_name, dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear from tbl_mst_companydetails";// where num_Student_Id=" + student.getStudentId() ;//" and vch_student_fname='" + student.getFirstname() + "'";
+
+		    List<CompanyDetails> companies = jdbcTemplate.query(sql, new CompanyDetailsMapper());
+
+		    return companies.size() > 0 ? companies.get(0) : null;
+		  }
+		  
 	  public int update(NominalRole p){  
 		    String sql="update tbl_mst_nominal_role set vch_reg_number='"+p.getRegno()+"', vch_name='"+p.getName()+"', dtt_year_of_joining='"+p.getYoj()+"', num_year_id="+p.getYear()+", num_degree_id="+p.getDegree()+", num_dept_id="+p.getDept()+", num_section_id="+p.getSection()+",vch_email_id='"+p.getEmail()+"'";
 		    
@@ -152,9 +172,22 @@ public class HomeDAOImpl implements HomeDAO {
 	
 		    return jdbcTemplate.update(sql);  
 		}  
-	  
-		public int delete(int id){  
+	  public int updateCompanyDetails(CompanyDetails p){  
+		    String sql="update tbl_mst_companydetails set vch_comany_name='"+p.getCompanyName()+"', dtt_dop='"+p.getDop()+"', num_percentage="+p.getPercentage()+", vch_his_of_arrear="+p.getHisofarrear()+", vch_cur_arrear="+p.getCurrentarrear()+"'";
+		    
+		     return jdbcTemplate.update(sql);  
+		}
+		
+	  public int delete(int id){  
 		    String sql="delete from tbl_mst_nominal_role where num_nominal_role_id="+id+"";  
+		    return jdbcTemplate.update(sql);  
+		}  
+	  public int delete1(int id){  
+		    String sql="delete from tbl_mst_nominal_role where num_nominal_role_id="+id+"";  
+		    return jdbcTemplate.update(sql);  
+		}  
+	  public int deleteCompanyDetails(int id){  
+		    String sql="delete from tbl_mst_companydetails where num_company_id="+id+"";  
 		    return jdbcTemplate.update(sql);  
 		}  
 		
@@ -172,17 +205,24 @@ public class HomeDAOImpl implements HomeDAO {
 "tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
 "tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
 "tbl_mst_sem_marks.num_sem10_mark"+
-"from tbl_mst_avg_marks"+
+"from tbl_mst_avg_marks, tbl_mst_sem_marks"+
 "left outer join tbl_mst_sem_marks on (tbl_mst_avg_marks.num_avg_marks_id = tbl_mst_sem_marks.num_avg_marks_id where num_nominal_role_id=?";
 		    
 		    return jdbcTemplate.queryForObject(sql, new Object[]{regno},new BeanPropertyRowMapper<AverageMarks>(AverageMarks.class));  
 		} 
 		
+		public CompanyDetails getCompanyDetailsById(int companyId){  
+		    String sql="select num_company_id, vch_company_name, dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear from tbl_mst_companydetails where num_company_id=?";  
+		    return jdbcTemplate.queryForObject(sql, new Object[]{companyId},new BeanPropertyRowMapper<CompanyDetails>(CompanyDetails.class));  
+		}  
+		
+		
+		
 		public List<NominalRole> getAllNominalRoles(){  
-		    return jdbcTemplate.query("select num_nominal_role_id, vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id  from tbl_mst_nominal_role",new RowMapper<NominalRole>(){  
+		    return jdbcTemplate.query("select vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id  from tbl_mst_nominal_role",new RowMapper<NominalRole>(){  
 		        public NominalRole mapRow(ResultSet rs, int row) throws SQLException {  
 		        	NominalRole e=new NominalRole();  
-		            e.setNominalRoleId(rs.getInt(1));
+		           
 		        	e.setRegno(rs.getString(2));  
 		            e.setName(rs.getString(3));  
 		            e.setDegree(rs.getInt(6));  
@@ -220,29 +260,56 @@ public class HomeDAOImpl implements HomeDAO {
 
 
 		public List<AverageMarks> getAllAverageMarks(){  
-		    return jdbcTemplate.query("select num_nominal_role_id,num_sem_marks_id, num_sem1_mark,num_sem2_mark,num_sem3_mark,num_sem4_mark,num_sem5_mark,num_sem6_mark,num_sem7_mark,num_sem8_mark,num_sem9_mark,num_sem10_mark from tbl_mst_sem_marks"+"select num_nominal_role_id, num_avg_marks, num_his_of_arrears, num_cur_arrears from tbl_mst_avg_marks",new RowMapper<AverageMarks>(){  
+		    return jdbcTemplate.query("select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
+"tbl_mst_avg_marks.num_avg_marks,"+ 
+"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears, "+
+"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark, "+
+"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
+"tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
+"tbl_mst_sem_marks.num_sem10_mark"+
+"from tbl_mst_avg_marks, tbl_mst_sem_marks;",new RowMapper<AverageMarks>(){  
 		        public AverageMarks mapRow(ResultSet rs, int row) throws SQLException {  
-		        	AverageMarks e =new AverageMarks();  
-		        	e.setNominalRoleId(rs.getInt(1));
-		            e.setSemmarksId(rs.getInt(2));
-		        	e.setSem1Mark(rs.getInt(3)) ; 
-		        	e.setSem2Mark(rs.getInt(4)) ; 
-		        	e.setSem3Mark(rs.getInt(5)) ; 
-		        	e.setSem4Mark(rs.getInt(6)) ; 
-		        	e.setSem5Mark(rs.getInt(7)) ; 
-		        	e.setSem6Mark(rs.getInt(8)) ; 
-		        	e.setSem7Mark(rs.getInt(9)) ; 
-		        	e.setSem8Mark(rs.getInt(10)) ; 
-		        	e.setSem9Mark(rs.getInt(11)) ; 
-		        	e.setSem10Mark(rs.getInt(12)) ;
-		        	e.setNominalRoleId(rs.getInt(13)) ; 
-		            e.setAvgmark(rs.getInt(14));  
-		            e.setHisofarrear(rs.getInt(15));
-		            e.setCurrentarrear(rs.getInt(16));
+		        	AverageMarks e =new AverageMarks(); 
+		        	e.setAvgmarkId(rs.getInt(1));
+		        	e.setRegno(rs.getInt(2));
+		            e.setSemmarksId(rs.getInt(3));
+		        	e.setSem1Mark(rs.getInt(4)) ; 
+		        	e.setSem2Mark(rs.getInt(5)) ; 
+		        	e.setSem3Mark(rs.getInt(6)) ; 
+		        	e.setSem4Mark(rs.getInt(7)) ; 
+		        	e.setSem5Mark(rs.getInt(8)) ; 
+		        	e.setSem6Mark(rs.getInt(9)) ; 
+		        	e.setSem7Mark(rs.getInt(10)) ; 
+		        	e.setSem8Mark(rs.getInt(11)) ; 
+		        	e.setSem9Mark(rs.getInt(12)) ; 
+		        	e.setSem10Mark(rs.getInt(13)) ;
+		        	e.setNominalRoleId(rs.getInt(14)) ; 
+		            e.setAvgmark(rs.getInt(15));  
+		            e.setHisofarrear(rs.getInt(16));
+		            e.setCurrentarrear(rs.getInt(17));
 		           return e;  
 		        }  
 		    });  
 		} 
+		
+		public List<CompanyDetails> getAllCompanyDetails(){  
+		    return jdbcTemplate.query("select vch_company_name,dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear  from tbl_mst_companydetails",new RowMapper<CompanyDetails>(){  
+		        public CompanyDetails mapRow(ResultSet rs, int row) throws SQLException {  
+		        	CompanyDetails e=new CompanyDetails();  
+		           
+		        	e.setCompanyName(rs.getString(1));  
+		            e.setDop(rs.getDate(2));  
+		            e.setPercentage(rs.getInt(3));  
+		            e.setHisofarrear(rs.getString(4));  
+		            e.setCurrentarrear(rs.getString(5));
+		
+		            
+		            
+		            return e;  
+		        }  
+		    });  
+		} 
+	
 		// to load Department combobox values
 		public List<ComboDO> getAllDept(){  
 		    return jdbcTemplate.query("select num_dept_id, vch_dept_name from tbl_mst_dept where char_active_status='Y'",new RowMapper<ComboDO>(){  
@@ -329,7 +396,7 @@ class AverageMarksMapper implements RowMapper<AverageMarks> {
 
 	  public AverageMarks mapRow(ResultSet rs, int arg1) throws SQLException {
 		  AverageMarks marks = new AverageMarks();
-		  marks.setNominalRoleId(rs.getInt("num_nominal_role_id"));
+
 		  marks.setRegno(rs.getInt("num_reg_no"));
 		  marks.setSemmarksId(rs.getInt("num_sem_marks_id"));
 		  marks.setSem1Mark(rs.getInt("num_sem1_mark"));
@@ -348,11 +415,22 @@ class AverageMarksMapper implements RowMapper<AverageMarks> {
 	    return marks;
 	  }
 	}
-	
+class CompanyDetailsMapper implements RowMapper<CompanyDetails> {
 
+	  public CompanyDetails mapRow(ResultSet rs, int arg1) throws SQLException {
+		  CompanyDetails company = new CompanyDetails();
+		  company.setCompanyId(rs.getInt("num_company_id"));
+		  company.setCompanyName(rs.getString("vch_company_name"));
+		  company.setDop(rs.getDate("dtt_dop"));
+		  company.setPercentage(rs.getInt("num_percentage"));
+		  company.setHisofarrear(rs.getString("vch_his_of_arrear"));
+		  company.setCurrentarrear(rs.getString("vch_cur_arrear"));
+		 
+	    return company;
+	  }
+	}
 
-
-
+		
 }
 		  
 		  

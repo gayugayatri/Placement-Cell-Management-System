@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.iet.ExamCell.DAO.HomeDAO;
 import com.iet.ExamCell.Model.AverageMarks;
 import com.iet.ExamCell.Model.ComboDO;
+import com.iet.ExamCell.Model.CompanyDetails;
 import com.iet.ExamCell.Model.Login;
 import com.iet.ExamCell.Model.NominalRole;
 
@@ -38,6 +39,15 @@ public class HomeServiceImpl implements HomeService {
 	  public void register1(AverageMarks mark) {
 		    try {
 				homeDao.register1(mark);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  }
+	  
+	  public void registerCompanyDetails(CompanyDetails company) {
+		    try {
+				homeDao.registerCompanyDetails(company);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,11 +74,22 @@ public class HomeServiceImpl implements HomeService {
 			}
 		  }
 	  
+	  public void saveCompanyDetails(CompanyDetails company) {
+		    try {
+				homeDao.registerCompanyDetails(company);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  }
 	  public NominalRole getNominalRoleById(int regno) {
 		    return homeDao.getNominalRoleById(regno);
 		  }
 	  public AverageMarks getAverageMarksById(int regno) {
 		    return homeDao.getAverageMarksById(regno);
+		  }
+	  public CompanyDetails getCompanyDetailsById(int companyId) {
+		    return homeDao.getCompanyDetailsById(companyId);
 		  }
 	  
 	  public List<NominalRole> getAllNominalRoles(){
@@ -78,11 +99,18 @@ public class HomeServiceImpl implements HomeService {
 	  public List<AverageMarks> getAllAverageMarks(){
 		  return homeDao.getAllAverageMarks();
 	  }
+	  public List<CompanyDetails> getAllCompanyDetails(){
+		  return homeDao.getAllCompanyDetails();
+	  }
+	  
 	  public int update(NominalRole p){
 		  return homeDao.update(p);
 	  }
 	  public int update1(AverageMarks p){
 		  return homeDao.update1(p);
+	  }
+	  public int updateCompanyDetails(CompanyDetails p){
+		  return homeDao.updateCompanyDetails(p);
 	  }
 
 	  // to load Department combobox values

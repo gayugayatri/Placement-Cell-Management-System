@@ -3,63 +3,104 @@ import java.util.Date;
 import java.io.Serializable;
 
 public class CompanyDetails implements Serializable{
-      private int criteriaId;
-      private int companyId;
+      
+	  private int companyId;
+      private String companyName;
       private  Date dop;
       private int percentage;
-      private int historyofarrears;
-      private int currentarrears;
+      private String hisofarrear;
+      private String currentarrear;
       
       
 
 public CompanyDetails() {
 	// TODO Auto-generated constructor stub
 }
-public CompanyDetails(int companyId, Date dop,
-		int percentage, int historyofarrears, int currentarrears) {
+
+
+
+public CompanyDetails(int companyId, String companyName, Date dop, int percentage,
+		String hisofarrear, String currentarrear) {
 	
 	this.companyId = companyId;
+	this.companyName = companyName;
 	this.dop = dop;
 	this.percentage = percentage;
-	this.historyofarrears = historyofarrears;
-	this.currentarrears = currentarrears;
-	
+	this.hisofarrear = hisofarrear;
+	this.currentarrear = currentarrear;
 }
-public int getCriteriaId() {
-	return criteriaId;
-}
-public void setCriteriaId(int criteriaId) {
-	this.criteriaId = criteriaId;
-}
+
+
+
 public int getCompanyId() {
 	return companyId;
 }
+
+
+
 public void setCompanyId(int companyId) {
 	this.companyId = companyId;
 }
+
+
+
+public String getCompanyName() {
+	return companyName;
+}
+
+
+
+public void setCompanyName(String string) {
+	this.companyName = string;
+}
+
+
+
 public Date getDop() {
 	return dop;
 }
+
+
+
 public void setDop(Date dop) {
 	this.dop = dop;
 }
+
+
+
 public int getPercentage() {
 	return percentage;
 }
+
+
+
 public void setPercentage(int percentage) {
 	this.percentage = percentage;
 }
-public int getHistoryofarrears() {
-	return historyofarrears;
+
+
+
+public String getHisofarrear() {
+	return hisofarrear;
 }
-public void setHistoryofarrears(int historyofarrears) {
-	this.historyofarrears = historyofarrears;
+
+
+
+public void setHisofarrear(String hisofarrear) {
+	this.hisofarrear = hisofarrear;
 }
-public int getCurrentarrears() {
-	return currentarrears;
+
+
+
+public String getCurrentarrear() {
+	return currentarrear;
 }
-public void setCurrentarrears(int currentarrears) {
-	this.currentarrears = currentarrears;
+
+
+
+public void setCurrentarrear(String currentarrear) {
+	this.currentarrear = currentarrear;
 }
+
 
 }

@@ -182,14 +182,14 @@ public class HomeController {
     
     @RequestMapping(value="/saveCompanyDetails",method = RequestMethod.POST)  
     public String saveCompanyDetails(@ModelAttribute CompanyDetails companyDetails){  
-    	if(companyDetails.getCompanyId()>0)
+    	if(companyDetails.getCompanyId()> 0)
     	{
     		homeService.updateCompanyDetails(companyDetails);
     	}
     	else
     	{
     		homeService.saveCompanyDetails(companyDetails);  
-    	}
+    	}  
         return "redirect:/viewCompanyDetails";//will redirect to viewNominalRole request mapping  
     }  
     

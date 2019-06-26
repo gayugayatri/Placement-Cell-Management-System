@@ -97,9 +97,9 @@ public class HomeDAOImpl implements HomeDAO {
 
 	  public void register1(AverageMarks marks){
 
-		  String sql= "insert into tbl_mst_avg_marks ( vch_reg_no, num_avg_marks, vch_his_of_arrears, vch_cur_arrears)"+ "values(?,?,?,?)";	
+		  String sql= "insert into tbl_mst_avg_marks ( num_nominal_role_id, num_avg_marks, vch_his_of_arrears, vch_cur_arrears)"+ "values(?,?,?,?)";	
 		    
-		  jdbcTemplate.update(sql, new Object[] {marks.getRegno(),marks.getAvgmark(),  marks.getHisofarrear(), marks.getCurrentarrear()});
+		  jdbcTemplate.update(sql, new Object[] {marks.getAvgmark(),  marks.getHisofarrear(), marks.getCurrentarrear()});
 			      
 		  sql = "SELECT max(num_avg_marks_id) from tbl_mst_avg_marks";
 		  int num_avg_marks_id = jdbcTemplate.queryForObject(sql, Integer.class);
@@ -116,9 +116,9 @@ public class HomeDAOImpl implements HomeDAO {
 	  public void registerCompanyDetails(CompanyDetails company){
 
 		    String sql = "insert into tbl_mst_companydetails (vch_company_name, dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear) "
-		    		+ "values(?,?,?,?)";
+		    		+ "values(?,?,?,?,?)";
 		    
-		    jdbcTemplate.update(sql, new Object[] { company.getCompanyName(),
+		    jdbcTemplate.update(sql, new Object[] {company.getCompanyName(),
 		    		company.getDop(), company.getPercentage(), company.getHisofarrear(), company.getCurrentarrear()});
 			  }
 	  
@@ -138,13 +138,13 @@ public class HomeDAOImpl implements HomeDAO {
 
 		    String sql="select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
 "tbl_mst_avg_marks.num_avg_marks,"+ 
-"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears, "+
-"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark, "+
-"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
+"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears,"+
+"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark,"+
+"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark,"+
 "tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
 "tbl_mst_sem_marks.num_sem10_mark"+
-"from tbl_mst_avg_marks"+
-"left outer join tbl_mst_sem_marks on (tbl_mst_avg_marks.num_avg_marks_id = tbl_mst_sem_marks.num_avg_marks_id)" ;       
+" from tbl_mst_avg_marks"+
+" left outer join tbl_mst_sem_marks on (tbl_mst_avg_marks.num_avg_marks_id = tbl_mst_sem_marks.num_avg_marks_id)";      
 		    List<AverageMarks> marks = jdbcTemplate.query(sql, new AverageMarksMapper());
 
 		    return marks.size() > 0 ? marks.get(0) : null;
@@ -152,7 +152,17 @@ public class HomeDAOImpl implements HomeDAO {
 
 	  public CompanyDetails showCompanies(CompanyDetails company) {
 
-		    String sql = "select num_company_id, vch_company_name, dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear from tbl_mst_companydetails";// where num_Student_Id=" + student.getStudentId() ;//" and vch_student_fname='" + student.getFirstname() + "'";
+		    String sql = "select num_company_id, vch_company_name, dtt_dop, num_percentage,"+ 
+		    			 " CASE WHEN vch_his_of_arrear LIKE 'N' THEN 'NO'"+
+		    			 " WHEN vch_his_of_arrear LIKE 'Y' THEN 'YES'"+
+		    			 " ELSE null"+
+		    			 " END AS vch_his_of_arrear,"+ 
+		    			 " CASE WHEN vch_cur_arrear LIKE 'N' THEN 'NO'"+
+		    			 " WHEN vch_cur_arrear LIKE 'Y' THEN 'YES'"+
+		    			 " ELSE null"+
+		    			 " END AS vch_cur_arrear"+
+		    			 " from tbl_mst_companydetails";
+// where num_Student_Id=" + student.getStudentId() ;//" and vch_student_fname='" + student.getFirstname() + "'";
 
 		    List<CompanyDetails> companies = jdbcTemplate.query(sql, new CompanyDetailsMapper());
 
@@ -191,8 +201,7 @@ public class HomeDAOImpl implements HomeDAO {
 		    return jdbcTemplate.update(sql);  
 		}  
 		
-		 
-		public NominalRole getNominalRoleById(int regno){  
+	public NominalRole getNominalRoleById(int regno){  
 		    String sql="select num_nominal_role_id, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id from tbl_mst_nominal_role where num_nominal_role_id=?";  
 		    return jdbcTemplate.queryForObject(sql, new Object[]{regno},new BeanPropertyRowMapper<NominalRole>(NominalRole.class));  
 		}  
@@ -200,13 +209,13 @@ public class HomeDAOImpl implements HomeDAO {
 		public AverageMarks getAverageMarksById(int regno){  
 		    String sql="select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
 "tbl_mst_avg_marks.num_avg_marks,"+ 
-"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears, "+
-"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark, "+
-"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
+"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears,"+
+"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark,"+
+"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark,"+
 "tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
 "tbl_mst_sem_marks.num_sem10_mark"+
-"from tbl_mst_avg_marks, tbl_mst_sem_marks"+
-"left outer join tbl_mst_sem_marks on (tbl_mst_avg_marks.num_avg_marks_id = tbl_mst_sem_marks.num_avg_marks_id where num_nominal_role_id=?";
+" from tbl_mst_avg_marks"+
+" left outer join tbl_mst_sem_marks on (tbl_mst_avg_marks.num_avg_marks_id = tbl_mst_sem_marks.num_avg_marks_id) where tbl_mst_avg_marks.num_avg_marks_id=?";
 		    
 		    return jdbcTemplate.queryForObject(sql, new Object[]{regno},new BeanPropertyRowMapper<AverageMarks>(AverageMarks.class));  
 		} 
@@ -259,41 +268,54 @@ public class HomeDAOImpl implements HomeDAO {
 		} */
 
 
-		public List<AverageMarks> getAllAverageMarks(){  
-		    return jdbcTemplate.query("select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
-"tbl_mst_avg_marks.num_avg_marks,"+ 
-"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears, "+
-"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark, "+
-"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
-"tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
-"tbl_mst_sem_marks.num_sem10_mark"+
-"from tbl_mst_avg_marks, tbl_mst_sem_marks;",new RowMapper<AverageMarks>(){  
+		public List<AverageMarks> getAllAverageMarks(){
+			String strSql="select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
+					"tbl_mst_avg_marks.num_avg_marks,"+ 
+					"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears, "+
+					"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark, "+
+					"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
+					"tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
+					"tbl_mst_sem_marks.num_sem10_mark"+
+					" from tbl_mst_avg_marks"+
+					" left outer join tbl_mst_sem_marks on (tbl_mst_avg_marks.num_avg_marks_id = tbl_mst_sem_marks.num_avg_marks_id)";
+
+			System.out.print(strSql);
+		    return jdbcTemplate.query(strSql,new RowMapper<AverageMarks>(){  
 		        public AverageMarks mapRow(ResultSet rs, int row) throws SQLException {  
 		        	AverageMarks e =new AverageMarks(); 
 		        	e.setAvgmarkId(rs.getInt(1));
-		        	e.setRegno(rs.getInt(2));
-		            e.setSemmarksId(rs.getInt(3));
-		        	e.setSem1Mark(rs.getInt(4)) ; 
-		        	e.setSem2Mark(rs.getInt(5)) ; 
-		        	e.setSem3Mark(rs.getInt(6)) ; 
-		        	e.setSem4Mark(rs.getInt(7)) ; 
-		        	e.setSem5Mark(rs.getInt(8)) ; 
-		        	e.setSem6Mark(rs.getInt(9)) ; 
-		        	e.setSem7Mark(rs.getInt(10)) ; 
-		        	e.setSem8Mark(rs.getInt(11)) ; 
-		        	e.setSem9Mark(rs.getInt(12)) ; 
-		        	e.setSem10Mark(rs.getInt(13)) ;
-		        	e.setNominalRoleId(rs.getInt(14)) ; 
-		            e.setAvgmark(rs.getInt(15));  
-		            e.setHisofarrear(rs.getInt(16));
-		            e.setCurrentarrear(rs.getInt(17));
-		           return e;  
+		        	e.setNominalRoleId(rs.getInt(2));
+		        	e.setAvgmark(rs.getInt(3));
+		        	e.setHisofarrear(rs.getInt(4));
+		            e.setCurrentarrear(rs.getInt(5));
+		        	e.setSem1Mark(rs.getInt(6)) ; 
+		        	e.setSem2Mark(rs.getInt(7)) ; 
+		        	e.setSem3Mark(rs.getInt(8)) ; 
+		        	e.setSem4Mark(rs.getInt(9)) ; 
+		        	e.setSem5Mark(rs.getInt(10)) ; 
+		        	e.setSem6Mark(rs.getInt(11)) ; 
+		        	e.setSem7Mark(rs.getInt(12)) ; 
+		        	e.setSem8Mark(rs.getInt(13)) ; 
+		        	e.setSem9Mark(rs.getInt(14)) ; 
+		        	e.setSem10Mark(rs.getInt(15)) ;
+		        	 
+		              
+		             return e;  
 		        }  
 		    });  
 		} 
 		
 		public List<CompanyDetails> getAllCompanyDetails(){  
-		    return jdbcTemplate.query("select vch_company_name,dtt_dop, num_percentage, vch_his_of_arrear, vch_cur_arrear  from tbl_mst_companydetails",new RowMapper<CompanyDetails>(){  
+		    return jdbcTemplate.query("select vch_company_name, dtt_dop, num_percentage,"+ 
+	    			 " CASE WHEN vch_his_of_arrear LIKE 'N' THEN 'NO'"+
+	    			 " WHEN vch_his_of_arrear LIKE 'Y' THEN 'YES'"+
+	    			 " ELSE null"+
+	    			 " END AS vch_his_of_arrear,"+ 
+	    			 " CASE WHEN vch_cur_arrear LIKE 'N' THEN 'NO'"+
+	    			 " WHEN vch_cur_arrear LIKE 'Y' THEN 'YES'"+
+	    			 " ELSE null"+
+	    			 " END AS vch_cur_arrear"+
+	    			 " from tbl_mst_companydetails",new RowMapper<CompanyDetails>(){  
 		        public CompanyDetails mapRow(ResultSet rs, int row) throws SQLException {  
 		        	CompanyDetails e=new CompanyDetails();  
 		           

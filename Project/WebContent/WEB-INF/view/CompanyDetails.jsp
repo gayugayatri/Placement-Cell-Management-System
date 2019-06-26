@@ -4,20 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<script type="text/javascript" src="./company_files/jquery.min.js.download"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 <body>
-    <form:form method="post" class="example" action="save" modelAttribute="companyDetails">
+    <form:form method="post" class="example" action="saveCompanyDetails" modelAttribute="companyDetails">
 
    <div class="fsize">RECRUITING COMPANIES AND CRITERIA</div><br>
-    Company Name:<form:input path="companyId" id="companyId"/><br><br>
-    Date of placement:<form:input path="criteriaId" id="dateofplacement"/><br><br>
-    Percentage criteria:<form:input path="dop" id="percentage"/><br><br>
-    History of arrears:<form:input path="percentage" id="hoa"/><br><br>
-    Current arrears:<form:input path="historyofarrears" id="curarrears"/><br><br>
-    ccccc:<form:input path="currentarrears" id="curarrears"/><br><br>
-
-    <button type="button">SAVE</button><br><br>
+    Company Name:<form:input path="companyName" id="companyName"/><br><br>
+    Date of placement:<form:input path="dop" id="dop"/><br><br>
+    Percentage criteria:<form:input path="percentage" id="percentage"/><br><br>
+    History of arrears:<form:input path="hisofarrear" id="hisofarrear"/><br><br>
+    Current arrears:<form:input path="currentarrear" id="currentarrear"/><br><br>
+<button type="submit">SAVE</button><br><br>
 <table border="1">
 <tbody><tr>
     <th scope="col">S.no</th>

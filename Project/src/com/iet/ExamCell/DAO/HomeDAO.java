@@ -40,11 +40,12 @@ public interface HomeDAO {
 	List<AverageMarks> getAllAverageMarks();
 	List<CompanyDetails> getAllCompanyDetails();
 	// to load Department combobox values
-	List<ComboDO> getAllDegree();
+	
 	List<ComboDO> getAllDept();
 	List<ComboDO> getAllYear();
 	List<ComboDO> getAllSection();
 	List<ComboDO> getAllRegno();
+	List<ComboDO> getAllDegree(int deptId);
 	
 	
 }

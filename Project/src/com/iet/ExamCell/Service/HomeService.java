@@ -40,7 +40,7 @@ public interface HomeService {
 	  int update(NominalRole p);
 	  int update1(AverageMarks p);
 	  int updateCompanyDetails(CompanyDetails p);
-	  List<ComboDO> getAllDegree();
+	  List<ComboDO> getAllDegree(int deptId);
 	  List<ComboDO> getAllDept();
 	  List<ComboDO> getAllYear();
 	  List<ComboDO> getAllSection();

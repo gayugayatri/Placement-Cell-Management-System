@@ -97,17 +97,17 @@ public class HomeDAOImpl implements HomeDAO {
 
 	  public void register1(AverageMarks marks){
 
-		  String sql= "insert into tbl_mst_avg_marks ( num_nominal_role_id, num_avg_marks, vch_his_of_arrears, vch_cur_arrears)"+ "values(?,?,?,?)";	
+		  String sql= "insert into tbl_mst_avg_marks ( num_nominal_role_id, num_avg_marks, num_his_of_arrears, num_cur_arrears)"+ "values(?,?,?,?)";	
 		    
-		  jdbcTemplate.update(sql, new Object[] {marks.getAvgmark(),  marks.getHisofarrear(), marks.getCurrentarrear()});
+		  jdbcTemplate.update(sql, new Object[] {marks.getNominalRoleId(), marks.getAvgmark(),  marks.getHisofarrear(), marks.getCurrentarrear()});
 			      
 		  sql = "SELECT max(num_avg_marks_id) from tbl_mst_avg_marks";
 		  int num_avg_marks_id = jdbcTemplate.queryForObject(sql, Integer.class);
 			
-		  sql = "insert into tbl_mst_sem_marks (num_avg_marks_id, num_sem_marks_id, num_sem1_mark, num_sem2_mark, num_sem3_mark, num_sem4_mark, num_sem5_mark, num_sem6_mark, num_sem7_mark, num_sem8_mark, num_sem9_mark, num_sem10_mark) "
-		    		+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
+		  sql = "insert into tbl_mst_sem_marks (num_avg_marks_id, num_sem1_mark, num_sem2_mark, num_sem3_mark, num_sem4_mark, num_sem5_mark, num_sem6_mark, num_sem7_mark, num_sem8_mark, num_sem9_mark, num_sem10_mark) "
+		    		+ "values(?,?,?,?,?,?,?,?,?,?,?)";
            	    
-		  jdbcTemplate.update(sql, new Object[] { num_avg_marks_id, marks.getSemmarksId(),
+		  jdbcTemplate.update(sql, new Object[] { num_avg_marks_id,
 		    	marks.getSem1Mark(),marks.getSem2Mark(),marks.getSem3Mark(),marks.getSem4Mark(),marks.getSem5Mark(),marks.getSem6Mark(),marks.getSem7Mark(),marks.getSem8Mark(),marks.getSem9Mark(),marks.getSem10Mark()});
 		  
 		    
@@ -125,9 +125,20 @@ public class HomeDAOImpl implements HomeDAO {
 
 	  public NominalRole showStudents(NominalRole student) {
 
-	    String sql = "select num_no"
-	    		+ "minal_role_id, vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id,num_section_id, vch_email_id from tbl_mst_nominal_role";// where num_Student_Id=" + student.getStudentId() ;//" and vch_student_fname='" + student.getFirstname() + "'";
-
+	    String sql = "select num_nominal_role_id,"+ 
+	    		" vch_reg_number, vch_name,"+ 
+	    		" dtt_year_of_joining,"+
+	    		" tbl_mst_year.num_year_id, tbl_mst_year.num_year,"+
+	    		" tbl_mst_degree.num_degree_id, tbl_mst_degree.vch_degree_name,"+
+	    		" tbl_mst_dept.num_dept_id, tbl_mst_dept.vch_dept_name,"+
+	    		" tbl_mst_section.num_section_id, tbl_mst_section.vch_section,"+ 
+	    		" vch_email_id"+ 
+	    		" from tbl_mst_nominal_role, tbl_mst_year, tbl_mst_degree, tbl_mst_dept, tbl_mst_section"+
+	    		" where tbl_mst_nominal_role.num_year_id = tbl_mst_year.num_year_id"+
+	    		" AND tbl_mst_nominal_role.num_degree_id = tbl_mst_degree.num_degree_id"+
+	    		" AND tbl_mst_nominal_role.num_dept_id = tbl_mst_dept.num_dept_id"+
+	    		" AND tbl_mst_nominal_role.num_section_id = tbl_mst_section.num_section_id"+
+	    		" order by num_nominal_role_id";
 	    List<NominalRole> students = jdbcTemplate.query(sql, new NominalRoleMapper());
 
 	    return students.size() > 0 ? students.get(0) : null;
@@ -138,7 +149,7 @@ public class HomeDAOImpl implements HomeDAO {
 
 		    String sql="select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
 "tbl_mst_avg_marks.num_avg_marks,"+ 
-"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears,"+
+"tbl_mst_avg_marks.num_his_of_arrears, tbl_mst_avg_marks.num_cur_arrears,"+
 "tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark,"+
 "tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark,"+
 "tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
@@ -178,7 +189,7 @@ public class HomeDAOImpl implements HomeDAO {
 	  public int update1(AverageMarks p){  
 		    String sql="update tbl_mst_sem_marks set num_sem1_marks="+p.getSem1Mark()+",num_sem2_marks="+p.getSem2Mark()+",num_sem3_marks="+p.getSem3Mark()+",num_sem4_marks="+p.getSem4Mark()+",num_sem5_marks="+p.getSem5Mark()+",num_sem6_marks="+p.getSem6Mark()+",num_sem7_marks="+p.getSem7Mark()+",num_sem8_marks="+p.getSem8Mark()+",num_sem9_marks="+p.getSem9Mark()+",num_sem10_marks="+p.getSem10Mark();
 		    
-		           sql="update tbl_mst_avg_marks set  num_avg_marks="+p.getAvgmark()+", num_his_of_arrears="+p.getHisofarrear()+", num_current_arrears="+p.getCurrentarrear();
+		           sql="update tbl_mst_avg_marks set  num_avg_marks="+p.getAvgmark()+", num_his_of_arrears="+p.getHisofarrear()+", num_cur_arrears="+p.getCurrentarrear();
 	
 		    return jdbcTemplate.update(sql);  
 		}  
@@ -202,7 +213,15 @@ public class HomeDAOImpl implements HomeDAO {
 		}  
 		
 	public NominalRole getNominalRoleById(int regno){  
-		    String sql="select num_nominal_role_id, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id from tbl_mst_nominal_role where num_nominal_role_id=?";  
+		    String sql="select num_nominal_role_id,"+ 
+		    		" vch_reg_number, vch_name,"+ 
+		    		" dtt_year_of_joining,"+
+		    		" tbl_mst_year.num_year_id, tbl_mst_year.num_year,"+
+		    		" tbl_mst_degree.num_degree_id, tbl_mst_degree.vch_degree_name,"+
+		    		" tbl_mst_dept.num_dept_id, tbl_mst_dept.vch_dept_name,"+
+		    		" tbl_mst_section.num_section_id, tbl_mst_section.vch_section,"+ 
+		    		" vch_email_id"+ 
+		    		" from tbl_mst_nominal_role where num_nominal_role_id=?";  
 		    return jdbcTemplate.queryForObject(sql, new Object[]{regno},new BeanPropertyRowMapper<NominalRole>(NominalRole.class));  
 		}  
 		
@@ -228,18 +247,36 @@ public class HomeDAOImpl implements HomeDAO {
 		
 		
 		public List<NominalRole> getAllNominalRoles(){  
-		    return jdbcTemplate.query("select vch_reg_number, vch_name, dtt_year_of_joining, num_year_id, num_degree_id, num_dept_id, num_section_id, vch_email_id  from tbl_mst_nominal_role",new RowMapper<NominalRole>(){  
+		    return jdbcTemplate.query("select num_nominal_role_id,"+ 
+		    		" vch_reg_number, vch_name,"+ 
+		    		" dtt_year_of_joining,"+
+		    		" tbl_mst_year.num_year_id, tbl_mst_year.num_year,"+
+		    		" tbl_mst_degree.num_degree_id, tbl_mst_degree.vch_degree_name,"+
+		    		" tbl_mst_dept.num_dept_id, tbl_mst_dept.vch_dept_name,"+
+		    		" tbl_mst_section.num_section_id, tbl_mst_section.vch_section,"+ 
+		    		" vch_email_id"+ 
+		    		" from tbl_mst_nominal_role, tbl_mst_year, tbl_mst_degree, tbl_mst_dept, tbl_mst_section"+
+		    		" where tbl_mst_nominal_role.num_year_id = tbl_mst_year.num_year_id"+
+		    		" AND tbl_mst_nominal_role.num_degree_id = tbl_mst_degree.num_degree_id"+
+		    		" AND tbl_mst_nominal_role.num_dept_id = tbl_mst_dept.num_dept_id"+
+		    		" AND tbl_mst_nominal_role.num_section_id = tbl_mst_section.num_section_id"+
+		    		" order by num_nominal_role_id",new RowMapper<NominalRole>(){  
 		        public NominalRole mapRow(ResultSet rs, int row) throws SQLException {  
 		        	NominalRole e=new NominalRole();  
-		           
+		            e.setNominalRoleId(rs.getInt(1));
 		        	e.setRegno(rs.getString(2));  
 		            e.setName(rs.getString(3));  
-		            e.setDegree(rs.getInt(6));  
-		            e.setDept(rs.getInt(7));  
-		            e.setSection(rs.getInt(8));
-		            e.setYear(rs.getInt(5));
 		            e.setYoj(rs.getDate(4));
-		            e.setEmail(rs.getString(9));
+		            e.setYear(rs.getInt(5));
+		            e.setYearName(rs.getInt(6));
+		            e.setDegree(rs.getInt(7));  
+		            e.setDegreeName(rs.getString(8));
+		            e.setDept(rs.getInt(9));  
+		            e.setDeptName(rs.getString(10));  
+		            e.setSection(rs.getInt(11));
+		            e.setSectionName(rs.getString(12));
+		          
+		            e.setEmail(rs.getString(13));
 		            
 		            
 		            return e;  
@@ -271,7 +308,7 @@ public class HomeDAOImpl implements HomeDAO {
 		public List<AverageMarks> getAllAverageMarks(){
 			String strSql="select tbl_mst_avg_marks.num_avg_marks_id, tbl_mst_avg_marks.num_nominal_role_id,"+ 
 					"tbl_mst_avg_marks.num_avg_marks,"+ 
-					"tbl_mst_avg_marks.vch_his_of_arrears, tbl_mst_avg_marks.vch_cur_arrears, "+
+					"tbl_mst_avg_marks.num_his_of_arrears, tbl_mst_avg_marks.num_cur_arrears, "+
 					"tbl_mst_sem_marks.num_sem1_mark, tbl_mst_sem_marks.num_sem2_mark, tbl_mst_sem_marks.num_sem3_mark, "+
 					"tbl_mst_sem_marks.num_sem4_mark, tbl_mst_sem_marks.num_sem5_mark, tbl_mst_sem_marks.num_sem6_mark, "+
 					"tbl_mst_sem_marks.num_sem7_mark, tbl_mst_sem_marks.num_sem8_mark, tbl_mst_sem_marks.num_sem9_mark,"+ 
@@ -343,8 +380,8 @@ public class HomeDAOImpl implements HomeDAO {
 		        }  
 		    });  
 		}
-		public List<ComboDO> getAllDegree(){  
-		    return jdbcTemplate.query("select num_degree_id, vch_degree_name from tbl_mst_degree where char_active_status='Y'",new RowMapper<ComboDO>(){  
+		public List<ComboDO> getAllDegree(int deptId){  
+		    return jdbcTemplate.query("select num_degree_id, vch_degree_name from tbl_mst_degree where char_active_status='Y' AND NUM_DEPT_ID = "+deptId,new RowMapper<ComboDO>(){  
 		        public ComboDO mapRow(ResultSet rs, int row) throws SQLException {  
 		        	ComboDO e=new ComboDO();  
 		            e.setId(rs.getInt(1));
@@ -419,8 +456,11 @@ class AverageMarksMapper implements RowMapper<AverageMarks> {
 	  public AverageMarks mapRow(ResultSet rs, int arg1) throws SQLException {
 		  AverageMarks marks = new AverageMarks();
 
-		  marks.setRegno(rs.getInt("num_reg_no"));
-		  marks.setSemmarksId(rs.getInt("num_sem_marks_id"));
+		  marks.setAvgmarkId(rs.getInt("num_avg_marks_id"));
+		  marks.setNominalRoleId(rs.getInt("num_nominal_role_id"));
+		  marks.setAvgmark(rs.getInt("num_avg_marks"));
+		  marks.setHisofarrear(rs.getInt("num_his_of_arrears"));
+		  marks.setCurrentarrear(rs.getInt("num_cur_arrears"));
 		  marks.setSem1Mark(rs.getInt("num_sem1_mark"));
 		  marks.setSem2Mark(rs.getInt("num_sem2_mark"));
 		  marks.setSem3Mark(rs.getInt("num_sem3_mark"));
@@ -431,9 +471,9 @@ class AverageMarksMapper implements RowMapper<AverageMarks> {
 		  marks.setSem8Mark(rs.getInt("num_sem8_mark"));
 		  marks.setSem9Mark(rs.getInt("num_sem9_mark"));
 		  marks.setSem10Mark(rs.getInt("num_sem10_mark"));
-		  marks.setAvgmark(rs.getInt("num_avg_marks"));
-		  marks.setHisofarrear(rs.getInt("num_avg_marks"));
-		  marks.setCurrentarrear(rs.getInt("num_avg_marks"));
+		  
+		  
+		  
 	    return marks;
 	  }
 	}

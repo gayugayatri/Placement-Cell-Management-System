@@ -28,15 +28,15 @@ public class AverageMarks implements Serializable {
 	}
 
 
-	public AverageMarks(int semmarksId, int regno, int avgmarkId, int nominalRoleId,
-			int sem1Mark, int sem2Mark, int sem3Mark, int sem4Mark,
-			int sem5Mark, int sem6Mark, int sem7Mark, int sem8Mark,
-			int sem9Mark, int sem10Mark, int avgmark, int hisofarrear,
-			int currentarrear) {
-		
+	public AverageMarks(int semmarksId, int regno, int avgmarkId,
+			int nominalRoleId, int sem1Mark, int sem2Mark, int sem3Mark,
+			int sem4Mark, int sem5Mark, int sem6Mark, int sem7Mark,
+			int sem8Mark, int sem9Mark, int sem10Mark, int avgmark,
+			int hisofarrear, int currentarrear) {
+		super();
 		this.semmarksId = semmarksId;
 		this.regno = regno;
-		this.avgmarkId=avgmarkId;
+		this.avgmarkId = avgmarkId;
 		this.nominalRoleId = nominalRoleId;
 		this.sem1Mark = sem1Mark;
 		this.sem2Mark = sem2Mark;
@@ -51,16 +51,6 @@ public class AverageMarks implements Serializable {
 		this.avgmark = avgmark;
 		this.hisofarrear = hisofarrear;
 		this.currentarrear = currentarrear;
-	}
-
-
-	public int getNominalRoleId() {
-		return nominalRoleId;
-	}
-
-
-	public void setNominalRoleId(int nominalRoleId) {
-		this.nominalRoleId = nominalRoleId;
 	}
 
 
@@ -82,14 +72,25 @@ public class AverageMarks implements Serializable {
 	public void setRegno(int regno) {
 		this.regno = regno;
 	}
-	
-    public int getAvgmarkId() {
+
+
+	public int getAvgmarkId() {
 		return avgmarkId;
 	}
 
 
 	public void setAvgmarkId(int avgmarkId) {
 		this.avgmarkId = avgmarkId;
+	}
+
+
+	public int getNominalRoleId() {
+		return nominalRoleId;
+	}
+
+
+	public void setNominalRoleId(int nominalRoleId) {
+		this.nominalRoleId = nominalRoleId;
 	}
 
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iet.ExamCell.Model.AverageMarks;
@@ -72,6 +73,7 @@ public class HomeController {
 	/*It displays a form to input data, here "command" is a reserved request attribute 
      *which is used to display object data into form 
      */  
+	
     @RequestMapping("/nominalRole")  
     public String showform(Map<String, Object> model){  
     	model.put("nominalRole", new NominalRole());
@@ -79,14 +81,17 @@ public class HomeController {
     	/*NominalRole nominalRole=homeService.getNominalRoleById(id);  
         m.addAttribute("command",nominalRole);*/
         
+    	
+    	
         List<ComboDO> deptList = homeService.getAllDept();
         model.put("deptList", deptList);
-        List<ComboDO> degreeList = homeService.getAllDegree();
+       /* List<ComboDO> degreeList = homeService.getAllDegree();
         model.put("degreeList", degreeList);
+    	
         List<ComboDO> yearList = homeService.getAllYear();
         model.put("yearList", yearList);
         List<ComboDO> sectionList = homeService.getAllSection();
-        model.put("sectionList", sectionList);
+        model.put("sectionList", sectionList);*/
         
     	/*List<String> yearList = new ArrayList<>();
     	yearList.add("1");
@@ -113,6 +118,13 @@ public class HomeController {
         
     	return "NominalRole"; 
     } 
+    
+    @RequestMapping(value = "degrees/{deptId}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ComboDO> getAllDegree(@PathVariable("deptId") int deptId) {
+        return homeService.getAllDegree(deptId);
+    }
+    
     
     @RequestMapping("/averageMarks")  
     public String showform1(Map<String, Object> model){  
@@ -169,7 +181,7 @@ public class HomeController {
     
     @RequestMapping(value="/saveAverageMarks",method = RequestMethod.POST)  
     public String saveAverageMarks(@ModelAttribute AverageMarks averageMarks){  
-    	if(averageMarks.getNominalRoleId()>0)
+    	if(averageMarks.getAvgmarkId()>0)
     	{
     		homeService.update1(averageMarks);
     	}

@@ -120,8 +120,8 @@ public class HomeServiceImpl implements HomeService {
 			  return homeDao.getAllDept();
 		  
 		  }
-		  public List<ComboDO> getAllDegree(){
-			  return homeDao.getAllDegree();
+		  public List<ComboDO> getAllDegree(int deptId){
+			  return homeDao.getAllDegree( deptId);
 		  }
 
 		  public List<ComboDO> getAllYear(){

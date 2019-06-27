@@ -10,10 +10,10 @@
     <td>${NominalRole.regno}</td>
     <td>${NominalRole.name}</td>
     <td>${NominalRole.yoj}</td>
-    <td>${NominalRole.year}</td>
-    <td>${NominalRole.degree}</td>
-    <td>${NominalRole.dept}</td>
-    <td>${NominalRole.section}</td>
+    <td>${NominalRole.yearName}</td>
+    <td>${NominalRole.degreeName}</td>
+    <td>${NominalRole.deptName}</td>
+    <td>${NominalRole.sectionName}</td>
     <td>${NominalRole.email}</td>
     <td><a href="edit/${NominalRole.nominalRoleId}">Edit</a></td>
     </tr>

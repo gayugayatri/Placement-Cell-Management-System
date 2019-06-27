@@ -3,7 +3,36 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    
+<script type="text/javascript">
+$(document).ready(function(){
 
+$('#dept').on('change',function(){
+
+   var deptId = $(this).val();
+   var option = "option value='0'>--Select Degree--</option>";
+   $.ajax({
+       type: 'GET',
+       url: "degrees/" + deptId,
+       success: function(data){
+           for(var i=0; i<data.length; i++){
+               option = option + "<option value='"+data[i].id + "'>"+data[i].value + "</option>";
+           }
+           $('#degree').html(option)
+       },
+       error:function(){
+    	   $('#degree').html(option)
+           alert("error");
+       }
+   });
+});
+
+});
+ 
+</script>
+</head>
 <body>
 <h2><center>NOMINAL ROLE</center></h2><br><br>
 <form:form method="post" class="example" action="saveNominalRole" modelAttribute="nominalRole">
@@ -20,14 +49,15 @@ Year:<form:select path="year" id="year">
 <form:option value="0" label="----Select Year----"/>
 <form:options items="${yearList}" itemValue="id" itemLabel="value"/> 
 </form:select><br><br>
+Dept:<form:select path="dept"  id="dept">
+    <form:option value="0" label="--Select Dept--"/>
+    <form:options items="${deptList}" itemValue="id" itemLabel="value"/>
+</form:select>
+<br><br>
 Degree:<form:select path="degree" id="degree">
-<form:option value="0" label="----Select Degree----"/>
-<form:options items="${degreeList}" itemValue="id" itemLabel="value"/> 
-</form:select><br><br>
-Dept:<form:select path="dept" id="dept">
-<form:option value="0" label="----Select Dept----"/>
-<form:options items="${deptList}" itemValue="id" itemLabel="value"/> 
-</form:select><br><br>
+<form:option value="0" label="--Select Degree--"/>
+</form:select>
+<br><br>
 Section:<form:select path="section" id="section">
 <form:option value="0" label="----Select Section----"/>
 <form:options items="${sectionList}" itemValue="id" itemLabel="value"/> 

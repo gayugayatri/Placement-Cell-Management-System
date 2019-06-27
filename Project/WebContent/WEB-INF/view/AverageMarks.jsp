@@ -11,7 +11,7 @@
 <input type="text" placeholder="Search.." name="search">
 <button type="submit"><i class="fa fa-search"></i></button>
 <button id="upload" name="upload">Upload</button></label><br><br>
-Regno:<form:select path="regno" id="regno">
+Regno:<form:select path="nominalRoleId" id="regno">
 <form:option value="0" label="----Select Regno----"/>
 <form:options items="${regnoList}" itemValue="id" itemLabel="value"/> 
 </form:select><br><br>

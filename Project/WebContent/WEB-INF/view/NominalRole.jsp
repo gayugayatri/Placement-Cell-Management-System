@@ -165,8 +165,8 @@ flag=false;
 else if(email == "" || email == undefined || !email.match(emailformat))
 {
 alert("please enter valid email");
-}
-}
+} 
+} 
 </script>
 </html>
 
